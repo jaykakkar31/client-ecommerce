@@ -1,0 +1,9 @@
+
+.row-product{
+    display: flex;
+}
+
+.row-product .col-md-2{
+    display: flex;
+    align-items: center;
+}

@@ -1,0 +1,8 @@
+.product-data{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-container{
+    padding: 3% 10%;
+}

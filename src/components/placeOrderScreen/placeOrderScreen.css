@@ -1,0 +1,21 @@
+.order-summary {
+	padding: 4% 15%;
+	display: flex;
+}
+
+.list-group-item {
+	justify-content: start;
+	flex-direction: column;
+}
+
+.row {
+	align-items: center;
+}
+
+.summary .list-group-item {
+	display: flex;
+	/* align-items: center; */
+}
+.list-group-flush > .list-group-item:last-child {
+	border-bottom-width: 1px;
+}

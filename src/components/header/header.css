@@ -1,0 +1,25 @@
+#responsive-navbar-nav{
+    justify-content: end;
+}
+
+.navbar-brand{
+    font-size: 26px;
+}
+
+a{
+text-decoration: none;
+}
+.link-container{
+    display: flex;
+    justify-content: space-around;
+}
+
+.cart{
+    margin-right: 10px;
+}
+.header-links{
+    color: aliceblue;
+}
+.navbar-nav{
+    align-items: center;
+}

@@ -1,0 +1,13 @@
+.links-container {
+	display: flex;
+    margin-bottom: 20px;
+	justify-content: space-evenly;
+}
+.links-container a {
+	color: black;
+    font-weight: 500;
+}
+
+.links-container .nav-item{
+    width: fit-content;
+}
