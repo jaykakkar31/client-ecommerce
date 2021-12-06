@@ -41,7 +41,7 @@ const HomeScreen = () => {
 				<Message variant="danger">{error}</Message>
 			) : (
 				<div className="product-data">
-					{products&&products?.map((product, index) => {
+					{products.length!==0&&products?.map((product, index) => {
 						return <ProductScreen key={index} product={product} />;
 					})}
 				</div>
