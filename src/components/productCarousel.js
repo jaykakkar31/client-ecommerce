@@ -21,7 +21,7 @@ const ProductCarousel = () => {
 				<Message variant="danger">{error}</Message>
 			) : (
 				<Carousel indicatorLabels fade className="bg-dark" pause="hover">
-					{product?.map((item) => {
+					{product&&product?.map((item) => {
 						return (
 							<Carousel.Item key={item._id}>
 								<Link to={`/product/${item._id}`}>
