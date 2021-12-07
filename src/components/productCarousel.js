@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 const ProductCarousel = () => {
 	const dispatch = useDispatch();
 	const topProductReducer = useSelector((state) => state.topProductReducer);
-	const { error, loading, product } = topProductReducer;
+	const { error, loading,product } = topProductReducer;
+    console.log(error, loading, product);
 	useEffect(() => {
 		if (product?.length === 0) {
 			dispatch(listTopProduct());
@@ -23,7 +24,7 @@ const ProductCarousel = () => {
 				<Message variant="danger">{error}</Message>
 			) : (
 				<Carousel fade className="bg-dark" pause="hover">
-					{product &&
+					{product?.length!==0 &&
 						product?.map((item) => {
 							return (
 								<Carousel.Item key={item._id}>

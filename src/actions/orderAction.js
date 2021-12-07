@@ -21,6 +21,8 @@ import {
 } from "../constants/orderConstants";
 //with redux-thunk we can define function inside function
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const createOrder = (order) => async (dispatch, getState) => {
 	try {
 		dispatch({
@@ -34,7 +36,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 				Authorization: userInfo.token,
 			},
 		};
-		const { data } = await axios.post("/api/order", order, config);
+		const { data } = await axios.post(`${API_URL}/api/order`, order, config);
 		// console.log(data);
 		dispatch({
 			type: ORDER_CREATE_SUCCESS,
@@ -65,7 +67,7 @@ export const getOrderById = (id) => async (dispatch, getState) => {
 			},
 		};
 		const { data } = await axios.get(
-			`/api/order/${id}`,
+			`${API_URL}/api/order/${id}`,
 
 			config
 		);
@@ -99,7 +101,7 @@ export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
 			},
 		};
 		const { data } = await axios.patch(
-			`/api/order/${id}/pay`,
+			`${API_URL}/api/order/${id}/pay`,
 			paymentResult,
 			config
 		);
@@ -133,7 +135,7 @@ export const getAllMyOrderAction = () => async (dispatch, getState) => {
 			},
 		};
 		console.log("ENTERED");
-		const { data } = await axios.get(`/api/order/myorders`, config);
+		const { data } = await axios.get(`${API_URL}/api/order/myorders`, config);
 
 		// console.log(data);
 		dispatch({
@@ -165,7 +167,7 @@ export const getAllOrderAction = () => async (dispatch, getState) => {
 			},
 		};
 		console.log("ENTERED");
-		const { data } = await axios.get(`/api/order`, config);
+		const { data } = await axios.get(`${API_URL}/api/order`, config);
 
 		// console.log(data);
 		dispatch({
@@ -196,7 +198,7 @@ export const updateDeliverOrder = (id) => async (dispatch, getState) => {
 				Authorization: userInfo.token,
 			},
 		};
-		const { data } = await axios.patch(`/api/order/${id}/deliver`, {}, config);
+		const { data } = await axios.patch(`${API_URL}/api/order/${id}/deliver`, {}, config);
 
 		// console.log(data);
 		dispatch({

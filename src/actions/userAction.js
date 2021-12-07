@@ -28,6 +28,8 @@ import {
 import axios from "axios";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const userAction = (email, password) => async (dispatch) => {
 	try {
 		dispatch({
@@ -39,7 +41,7 @@ export const userAction = (email, password) => async (dispatch) => {
 			},
 		};
 		const { data } = await axios.post(
-			"/api/user/login",
+			`${API_URL}/api/user/login`,
 			{ email: email, password: password },
 			config
 		);
@@ -69,7 +71,7 @@ export const register = (email, password, name) => async (dispatch) => {
 			},
 		};
 		const { data } = await axios.post(
-			"/api/user/register",
+			`${API_URL}/api/user/register`,
 			{ email: email, password: password, name: name },
 			config
 		);
@@ -108,7 +110,7 @@ export const getDetails = (id) => async (dispatch, getState) => {
 				Authorization: user.token,
 			},
 		};
-		const { data } = await axios.get(`/api/user/${id}`, config);
+		const { data } = await axios.get(`${API_URL}/api/user/${id}`, config);
 		dispatch({
 			type: USER_DETAIL_SUCCESS,
 			payload: data,
@@ -137,7 +139,7 @@ export const updateProfileDetails = (user) => async (dispatch, getState) => {
 				Authorization: userInfo.token,
 			},
 		};
-		const { data } = await axios.patch(`/api/user/profile`, user, config);
+		const { data } = await axios.patch(`${API_URL}/api/user/profile`, user, config);
 		dispatch({
 			type: USER_UPDATE_PROFILE_SUCCESS,
 			payload: data,
@@ -177,7 +179,7 @@ export const listUsers = () => async (dispatch, getState) => {
 				Authorization: userInfo.token,
 			},
 		};
-		const { data } = await axios.get(`/api/user/`, config);
+		const { data } = await axios.get(`${API_URL}/api/user/`, config);
 		dispatch({
 			type: USER_LIST_SUCCESS,
 			payload: data,
@@ -206,7 +208,7 @@ export const deleteUsers = (id) => async (dispatch, getState) => {
 				Authorization: userInfo.token,
 			},
 		};
-		 await axios.delete(`/api/user/${id}`, config);
+		 await axios.delete(`${API_URL}/api/user/${id}`, config);
 		dispatch({
 			type: USER_DELETE_SUCCESS,
 		});
@@ -234,7 +236,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
 				Authorization: userInfo.token,
 			},
 		};
-		const { data } = await axios.patch(`/api/user/${user._id}`, user, config);
+		const { data } = await axios.patch(`${API_URL}/api/user/${user._id}`, user, config);
 		dispatch({
 			type: USER_UPDATE_SUCCESS,
 			payload: data,

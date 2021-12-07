@@ -1,10 +1,13 @@
 import axios from "axios";
 
 import { CART_ADD_ITEM, CART_REMOVE_ITEM ,SAVE_PAYMENT_METHOD,SAVE_SHIPPING_ADDRESS} from "../constants/cartConstants";
+
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const addToCart = (id, qty) => async (dispatch, getState) => {
 	//getState will all the items in reducer/store
 
-	const { data } = await axios.get(`/api/products/${id}`);
+	const { data } = await axios.get(`${API_URL}/api/products/${id}`);
 	// console.log(data);
 	dispatch({
 		type: CART_ADD_ITEM,

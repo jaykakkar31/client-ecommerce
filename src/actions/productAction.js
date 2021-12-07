@@ -22,6 +22,9 @@ import {
 } from "../constants/productConstants";
 //with redux-thunk we can define function inside function
 import axios from 'axios'
+
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const listProducts =
 	(keyword = "") =>
 	async (dispatch) => {
@@ -29,7 +32,7 @@ export const listProducts =
 			dispatch({
 				type: PRODUCT_LIST_REQUEST,
 			});
-			const { data } = await axios.get(`/api/products?keyword=${keyword}`);
+			const { data } = await axios.get(`${API_URL}/api/products?keyword=${keyword}`);
 			// console.log(data);
 			dispatch({
 				type: PRODUCT_LIST_SUCCESS,
@@ -52,7 +55,7 @@ export const productDetail = (id) => async (dispatch) => {
 			type: PRODUCT_DETAILS_REQUEST,
 		});
 		// console.log("PRODUCT");
-		const { data } = await axios.get(`/api/products/${id}`);
+		const { data } = await axios.get(`${API_URL}/api/products/${id}`);
 		// console.log(data);
 		dispatch({
 			type: PRODUCT_DETAILS_SUCCESS,
@@ -82,7 +85,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 				Authorization: userInfo.token,
 			},
 		};
-		 await axios.delete(`/api/products/${id}`, config);
+		 await axios.delete(`${API_URL}/api/products/${id}`, config);
 
 		// console.log(data);
 		dispatch({
@@ -99,7 +102,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 	}
 };
 
-export const createProduct = (product) => async (dispatch, getState) => {
+export const createProduct = () => async (dispatch, getState) => {
 	try {
 		dispatch({
 			type: PRODUCT_CREATE_REQUEST,
@@ -112,7 +115,7 @@ export const createProduct = (product) => async (dispatch, getState) => {
 				Authorization: userInfo.token,
 			},
 		};
-		const { data } = await axios.post(`/api/products/`, {}, config);
+		const { data } = await axios.post(`${API_URL}/api/products/`, {}, config);
 
 		// console.log(data);
 		dispatch({
@@ -144,7 +147,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 			},
 		};
 		const { data } = await axios.patch(
-			`/api/products/${product._id}/`,
+			`${API_URL}/api/products/${product._id}/`,
 			product,
 			config
 		);
@@ -180,7 +183,7 @@ export const createReview =
 				},
 			};
 			const { data } = await axios.post(
-				`/api/products/${productId}/review`,
+				`${API_URL}/api/products/${productId}/review`,
 				review,
 				config
 			);
@@ -207,7 +210,7 @@ export const listTopProduct = () => async (dispatch, getState) => {
 			type: PRODUCT_TOP_REQUEST,
 		});
 
-		const { data } = await axios.get("/api/products/top/products");
+		const { data } = await axios.get(`${API_URL}/api/products/top/products`);
 
 		dispatch({
 			type: PRODUCT_TOP_SUCCESS,
