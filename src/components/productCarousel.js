@@ -9,7 +9,7 @@ const ProductCarousel = () => {
 	const dispatch = useDispatch();
 	const topProductReducer = useSelector((state) => state.topProductReducer);
 	const { error, loading, product } = topProductReducer;
-
+console.log(product);
 	useEffect(() => {
 		dispatch(listTopProduct());
 	}, [dispatch]);

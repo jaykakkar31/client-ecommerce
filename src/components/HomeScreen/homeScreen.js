@@ -27,7 +27,7 @@ const HomeScreen = () => {
 		//keyword sent for searcing purpose
 		dispatch(listProducts(keyword));
 	}, [dispatch, keyword]);
-	console.log(loading);
+	console.log(products);
 	// const products=[]
 	return (
 		<div className="product-container">
