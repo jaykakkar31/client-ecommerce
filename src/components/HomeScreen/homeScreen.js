@@ -1,4 +1,4 @@
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 // import products from "../products";
 import "./homeScreen.css";
 import ProductScreen from "../productScreen/productScreen";
@@ -25,13 +25,14 @@ const HomeScreen = () => {
 	useEffect(() => {
 		//Firing the function
 		//keyword sent for searcing purpose
-		dispatch(listProducts(keyword));
+			dispatch(listProducts(keyword));
+		
 	}, [dispatch, keyword]);
 	console.log(products);
 	// const products=[]
 	return (
 		<div className="product-container">
-			<Meta/>
+			<Meta />
 
 			{!keyword && <ProductCarousel />}
 			<h2>LATEST PRODUCTS</h2>
@@ -41,9 +42,10 @@ const HomeScreen = () => {
 				<Message variant="danger">{error}</Message>
 			) : (
 				<div className="product-data">
-					{products.length!==0&&products?.map((product, index) => {
-						return <ProductScreen key={index} product={product} />;
-					})}
+					{products.length !== 0 &&
+						products?.map((product, index) => {
+							return <ProductScreen key={index} product={product} />;
+						})}
 				</div>
 			)}
 		</div>

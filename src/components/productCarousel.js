@@ -9,10 +9,12 @@ const ProductCarousel = () => {
 	const dispatch = useDispatch();
 	const topProductReducer = useSelector((state) => state.topProductReducer);
 	const { error, loading, product } = topProductReducer;
-console.log(product);
 	useEffect(() => {
-		dispatch(listTopProduct());
-	}, [dispatch]);
+		if (product?.length === 0) {
+			dispatch(listTopProduct());
+		}
+	}, [dispatch,product]);
+
 	return (
 		<div>
 			{loading ? (
@@ -20,22 +22,23 @@ console.log(product);
 			) : error ? (
 				<Message variant="danger">{error}</Message>
 			) : (
-				<Carousel indicatorLabels fade className="bg-dark" pause="hover">
-					{product.length!==0&&product?.map((item) => {
-						return (
-							<Carousel.Item key={item._id}>
-								<Link to={`/product/${item._id}`}>
-									<Image className="img-product" fluid src={item.image} />
+				<Carousel fade className="bg-dark" pause="hover">
+					{product &&
+						product?.map((item) => {
+							return (
+								<Carousel.Item key={item._id}>
+									<Link to={`/product/${item._id}`}>
+										<Image className="img-product" fluid src={item.image} />
 
-									<Carousel.Caption>
-										<h3>
-											{item.name} ${item.price}
-										</h3>
-									</Carousel.Caption>
-								</Link>
-							</Carousel.Item>
-						);
-					})}
+										<Carousel.Caption>
+											<h3>
+												{item.name} ${item.price}
+											</h3>
+										</Carousel.Caption>
+									</Link>
+								</Carousel.Item>
+							);
+						})}
 				</Carousel>
 			)}
 		</div>

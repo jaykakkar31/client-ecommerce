@@ -13,12 +13,12 @@ const ProductScreen = ({product}) => {
 				<Card.Img variant="top" src={product.image} />
 				<Card.Body>
 					<Card.Title>{product.name}</Card.Title>
-					<Card.Text>
+					
 						<Rating
 							value={product.rating}
 							text={` ${product.numReviews} reviews`}
 						/>
-					</Card.Text>
+					
 					<Card.Text>{product.price}</Card.Text>
 					{/* <Button variant="primary">Go somewhere</Button> */}
 				</Card.Body>

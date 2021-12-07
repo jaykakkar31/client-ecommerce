@@ -47,7 +47,6 @@ const SingleProduct = () => {
 	const addToCartHandler = () => {
 		history.push(`/cart/${id}?qty=${qty}`);
 	};
-	console.log(product?.reviews?.length);
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
