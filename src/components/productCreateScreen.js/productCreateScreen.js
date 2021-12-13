@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Message from "../message/message";
 import Loader from "../loader/loader";
 import axios from "axios";
-import { productDetail, updateProduct } from "../../actions/productAction";
-import { PRODUCT_UPDATE_RESET } from "../../constants/productConstants";
-const ProductEditScreen = () => {
-	const { id } = useParams();
+import { createProduct } from "../../actions/productAction";
+const ProductCreateScreen = () => {
 
 	const dispatch = useDispatch();
 	const [brand, setBrand] = useState("");
@@ -17,49 +15,21 @@ const ProductEditScreen = () => {
 	const [image, setImage] = useState("");
 	const [description, setDescription] = useState("");
 	const [category, setCategory] = useState("");
-	const [countInStock, setCountInStock] = useState("");
+	const [countInStock, setCountInStock] = useState(0);
 	const [uploading, setUploading] = useState(false);
 
-	const productUpdateReducer = useSelector(
-		(state) => state.productUpdateReducer
-	);
-	const {
-		error: errorUpdate,
-		loading: loadingUpdate,
-		success: successUpdate,
-	} = productUpdateReducer;
-	const productDetailReducer = useSelector(
-		(state) => state.productDetailReducer
-	);
-	const { error, product, loading, success } = productDetailReducer;
-
 	const history = useHistory();
+	const productCreateReducer = useSelector(
+		(state) => state.productCreateReducer
+	);
+	const { error, loading } = productCreateReducer;
 
-	useEffect(() => {
-		if (successUpdate) {
-			dispatch({ type: PRODUCT_UPDATE_RESET });
-			history.push("/admin/productlist");
-		} else {
-			if (!product?.name || product?._id !== id) {
-				dispatch(productDetail(id));
-			} else {
-				console.log(product);
-				setName(product.name);
-				setDescription(product.description);
-				setCategory(product.category);
-				setBrand(product.brand);
-				setImage(product.image);
-				setPrice(product.price);
-				setCountInStock(product.countInStock);
-			}
-		}
-	}, [dispatch, success, history, id, successUpdate]);
 
 	const formSubmitHandler = (e) => {
 		e.preventDefault();
+		console.log("CALLED");
 		dispatch(
-			updateProduct({
-				_id: product._id,
+			createProduct({
 				name: name,
 				description: description,
 				category: category,
@@ -68,14 +38,16 @@ const ProductEditScreen = () => {
 				countInStock: countInStock,
 				image: image,
 			})
+		
 		);
+        history.push("/admin/productlist")
 	};
 	const uploadFileHandler = async (e) => {
 		const file = e.target.files[0];
-        console.log(file);
-		 const formData = new FormData();
-			formData.append("image", file);
-			setUploading(true);
+		console.log(file);
+		const formData = new FormData();
+		formData.append("image", file);
+		setUploading(true);
 
 		try {
 			const config = {
@@ -84,8 +56,8 @@ const ProductEditScreen = () => {
 				},
 			};
 
-			const { data } = await axios.post("/api/uploads",formData,config);
-            console.log(data,"DATSA");
+			const { data } = await axios.post("/api/uploads", formData, config);
+			console.log(data, "DATSA");
 			setImage(data);
 			setUploading(false);
 		} catch (error) {
@@ -97,8 +69,8 @@ const ProductEditScreen = () => {
 		<div className="form-container">
 			<Link to="/admin/productlist">Go Back</Link>
 			<h1>Edit Product</h1>
-			{loadingUpdate && <Loader />}
-			{errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
+
+			{loading && <Loader />}
 			{loading ? (
 				<Loader />
 			) : error ? (
@@ -108,6 +80,7 @@ const ProductEditScreen = () => {
 					<Form.Group className="mb-3" controlId="name">
 						<Form.Label>Name</Form.Label>
 						<Form.Control
+							required
 							type="name"
 							placeholder="Enter name"
 							onChange={(e) => {
@@ -120,6 +93,7 @@ const ProductEditScreen = () => {
 						<Form.Label>Price</Form.Label>
 
 						<Form.Control
+							required
 							type="text"
 							placeholder="Enter price"
 							onChange={(e) => {
@@ -131,6 +105,7 @@ const ProductEditScreen = () => {
 					<Form.Group className="mb-3" controlId="image">
 						<Form.Label>Image</Form.Label>
 						<Form.Control
+							required
 							type="text"
 							placeholder="Enter image url"
 							onChange={(e) => {
@@ -140,9 +115,10 @@ const ProductEditScreen = () => {
 						/>
 						<Form.File
 							// id="image-file"
+							required
 							label="Choose File"
 							custom
-                            type="file"
+							type="file"
 							onChange={uploadFileHandler}
 						></Form.File>
 						{uploading && <Loader />}
@@ -151,6 +127,7 @@ const ProductEditScreen = () => {
 						<Form.Label>Stock</Form.Label>
 
 						<Form.Control
+							required
 							type="text"
 							placeholder="Enter count in stock"
 							onChange={(e) => {
@@ -163,6 +140,7 @@ const ProductEditScreen = () => {
 					<Form.Group className="mb-3" controlId="brand">
 						<Form.Label>Brand</Form.Label>
 						<Form.Control
+							required
 							type="text"
 							placeholder="Enter brand"
 							onChange={(e) => {
@@ -176,6 +154,7 @@ const ProductEditScreen = () => {
 						<Form.Label>Category</Form.Label>
 
 						<Form.Control
+							required
 							type="text"
 							placeholder="Enter category"
 							onChange={(e) => {
@@ -188,6 +167,7 @@ const ProductEditScreen = () => {
 						<Form.Label>Description</Form.Label>
 
 						<Form.Control
+							required
 							type="text"
 							placeholder="Enter description"
 							onChange={(e) => {
@@ -198,7 +178,7 @@ const ProductEditScreen = () => {
 					</Form.Group>
 
 					<Button variant="dark" type="submit">
-						Update
+						Create
 					</Button>
 				</Form>
 			)}
@@ -206,4 +186,4 @@ const ProductEditScreen = () => {
 	);
 };
 
-export default ProductEditScreen;
+export default ProductCreateScreen;

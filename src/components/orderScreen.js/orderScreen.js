@@ -24,6 +24,7 @@ import {
 	updateDeliverOrder,
 } from "../../actions/orderAction";
 import axios from "axios";
+import { CART_RESET_ITEM } from "../../constants/cartConstants";
 const OrderScreen = () => {
 	const dispatch = useDispatch();
 	const { id } = useParams();
@@ -58,13 +59,16 @@ const OrderScreen = () => {
 			document.body.appendChild(script);
 		};
 		if (!orderInfo?.order || successPay || successDeliver) {
-			console.log("RESET");
+			
 			dispatch({
 				type: ORDER_PAY_RESET,
 			});
 			dispatch({
 				type: ORDER_DELIVER_RESET,
 			});
+            dispatch({
+                type:CART_RESET_ITEM
+            })
 			dispatch(getOrderById(id));
 		} else if (!orderInfo?.order.isPaid) {
 			if (!window.paypal) {

@@ -27,6 +27,7 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
+import { RESET_SHIPPING_ADDRESS } from "../constants/cartConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -164,6 +165,7 @@ export const logout = () => (dispatch) => {
 	});
 	dispatch({ type: USER_DETAIL_RESET });
 	dispatch({ type: USER_LIST_RESET });
+    dispatch({type:RESET_SHIPPING_ADDRESS})
 };
 
 export const listUsers = () => async (dispatch, getState) => {

@@ -3,30 +3,41 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { saveShippingAddress } from "../../actions/cartAction";
-import './shippingScreen.css'
+import "./shippingScreen.css";
 import CheckoutSteps from "../checkoutSteps/checkoutSteps";
+import Message from "../message/message";
 const ShippingScreen = () => {
 	const cartReducer = useSelector((state) => state.cartReducer);
-	const { shippingAddress } = cartReducer;
+	const { shippingAddress, error } = cartReducer;
 
-	const [address, setAddress] = useState(shippingAddress.address);
-	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
-	const [city, setCity] = useState(shippingAddress.city);
-	const [country, setCountry] = useState(shippingAddress.country);
+	const [address, setAddress] = useState(shippingAddress.address||"");
+	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode||"");
+	const [city, setCity] = useState(shippingAddress.city||"");
+	const [country, setCountry] = useState(shippingAddress.country||"");
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const formSubmitHandler = (e) => {
 		e.preventDefault();
-		dispatch(
-			saveShippingAddress({
-				address: address,
-				postalCode: postalCode,
-				country: country,
-				city: city,
-			})
-		);
-		history.push("/payment");
+		if (
+			address?.length === 0 ||
+			postalCode?.length === 0 ||
+			country?.length === 0 ||
+			city?.length === 0
+		) {
+			alert("Details cannot be empty");
+		} else {
+			dispatch(
+				saveShippingAddress({
+					address: address,
+					postalCode: postalCode,
+					country: country,
+					city: city,
+				})
+			);
+			history.push("/payment");
+		}
 	};
+	console.log(error);
 	return (
 		<div className="form-container">
 			<CheckoutSteps step1 step2 />

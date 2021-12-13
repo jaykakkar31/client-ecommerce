@@ -28,6 +28,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 export const listProducts =
 	(keyword = "") =>
 	async (dispatch) => {
+        console.log("LIST");
 		try {
 			dispatch({
 				type: PRODUCT_LIST_REQUEST,
@@ -102,7 +103,8 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 	}
 };
 
-export const createProduct = () => async (dispatch, getState) => {
+export const createProduct = (product) => async (dispatch, getState) => {
+    console.log("REACHED");
 	try {
 		dispatch({
 			type: PRODUCT_CREATE_REQUEST,
@@ -115,7 +117,7 @@ export const createProduct = () => async (dispatch, getState) => {
 				Authorization: userInfo.token,
 			},
 		};
-		const { data } = await axios.post(`${API_URL}/api/products/`, {}, config);
+		const { data } = await axios.post(`${API_URL}/api/products/`, product, config);
 
 		// console.log(data);
 		dispatch({

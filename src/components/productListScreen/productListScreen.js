@@ -4,7 +4,7 @@ import Loader from "../loader/loader";
 import {
 	listProducts,
 	deleteProduct,
-	createProduct,
+	//createProduct,
 } from "../../actions/productAction";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import { PRODUCT_CREATE_RESET } from "../../constants/productConstants";
 const ProductListScreen = () => {
 	const dispatch = useDispatch();
 	const productListReducer = useSelector((state) => state.productListReducer);
-	const {  loading, products, error } = productListReducer;
+	const { loading, products, error } = productListReducer;
 	const history = useHistory();
 	const userReducer = useSelector((state) => state.userReducer);
 	const { userInfo } = userReducer;
@@ -24,7 +24,7 @@ const ProductListScreen = () => {
 	);
 	const {
 		success: successCreate,
-		product: createdProduct,
+		// product: createdProduct,
 		error: errorCreate,
 		loading: loadingCreate,
 	} = productCreateReducer;
@@ -45,22 +45,26 @@ const ProductListScreen = () => {
 			history.push("/login");
 		}
 
-		if (successCreate) {
-			history.push(`/admin/product/${createdProduct?._id}/edit`);
-		} else {
-			console.log("LIST");
-			dispatch(listProducts());
-		}
+
+		// if (successDelete) {
+		// 	dispatch(listProducts());
+		// }
+		dispatch(listProducts());
+
+		// if (!successCreate) {
+		// dispatch(listProducts())
+		// }
 	}, [
 		history,
 		userInfo,
 		dispatch,
 		successDelete,
 		successCreate,
-		createdProduct,
+		// createdProduct,
 	]);
 	const createProductHandler = () => {
-		dispatch(createProduct());
+		// dispatch(createProduct());
+		history.push("/admin/create/product");
 	};
 	const deleteHandler = (id) => {
 		if (window.confirm("Are you sure")) {
@@ -107,7 +111,7 @@ const ProductListScreen = () => {
 					<tbody>
 						{products.map((item) => {
 							return (
-								<tr>
+								<tr key={item._id}>
 									<td>{item._id}</td>
 									<td>{item.name}</td>
 									<td>{item.price}</td>

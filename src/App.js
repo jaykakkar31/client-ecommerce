@@ -16,6 +16,7 @@ import UserEditScreen from "./components/userEditScreen/userEditScreen";
 import ProductListScreen from "./components/productListScreen/productListScreen";
 import ProductEditScreen from "./components/productEditScreen/productEditScreen";
 import OrderListScreen from "./components/orderListScreen/orderListScreen";
+import ProductCreateScreen from "./components/productCreateScreen.js/productCreateScreen";
 
 function App() {
 	return (
@@ -72,6 +73,9 @@ function App() {
 					<Route path="/search/:keyword">
 						<HomeScreen />
 					</Route>
+                    <Route path="/admin/create/product">
+                        <ProductCreateScreen/>
+                    </Route>
 				</Switch>
 			</Router>
 		</div>

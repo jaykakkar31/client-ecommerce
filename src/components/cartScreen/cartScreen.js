@@ -35,7 +35,7 @@ const CartScreen = ({ match, location }) => {
 	return (
 		<div className="shopping-cart">
 			<h2>SHOPPING CART</h2>
-			{cartItems.length > 0 ? (
+			{cartItems?.length > 0 ? (
 				<div className="container-cart">
 					<div className="sub-container-cart">
 						{cartItems.map((item) => {
