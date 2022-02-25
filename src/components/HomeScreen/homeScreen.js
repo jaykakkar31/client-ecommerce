@@ -33,6 +33,11 @@ const HomeScreen = () => {
 	return (
 		<div className="product-container">
 			<Meta />
+			{/* <iframe
+            title="Hel"
+				id="gmap_canvas"
+				src="https://maps.google.com/maps?q=Signature%20View%2CAppartment%20Delhi%2C%20India%2C%20India&t=&z=13&ie=UTF8&iwloc=&output=embed"
+			></iframe> */}
 
 			{!keyword && <ProductCarousel />}
 			<h2>LATEST PRODUCTS</h2>
