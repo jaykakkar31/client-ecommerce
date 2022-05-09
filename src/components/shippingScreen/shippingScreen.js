@@ -40,7 +40,7 @@ const ShippingScreen = () => {
 	console.log(error);
 	return (
 		<div className="form-container">
-			<CheckoutSteps step1 step2 />
+			<CheckoutSteps step2 />
 			<h1>Shipping</h1>
 			<Form onSubmit={formSubmitHandler}>
 				<Form.Group className="mb-3" controlId="address">
