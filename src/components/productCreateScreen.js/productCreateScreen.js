@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, ProgressBar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Message from "../message/message";
 import Loader from "../loader/loader";
 import axios from "axios";
+import { storage } from "../firebase/firebase";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 import { createProduct } from "../../actions/productAction";
 const ProductCreateScreen = () => {
-
 	const dispatch = useDispatch();
 	const [brand, setBrand] = useState("");
 	const [price, setPrice] = useState(0);
@@ -17,13 +19,13 @@ const ProductCreateScreen = () => {
 	const [category, setCategory] = useState("");
 	const [countInStock, setCountInStock] = useState(0);
 	const [uploading, setUploading] = useState(false);
-
+	const [iImage, setiImage] = useState(null);
+	const [iprogress, setIProgress] = useState(0);
 	const history = useHistory();
 	const productCreateReducer = useSelector(
 		(state) => state.productCreateReducer
 	);
 	const { error, loading } = productCreateReducer;
-
 
 	const formSubmitHandler = (e) => {
 		e.preventDefault();
@@ -38,10 +40,32 @@ const ProductCreateScreen = () => {
 				countInStock: countInStock,
 				image: image,
 			})
-		
 		);
-        history.push("/admin/productlist")
+		history.push("/admin/productlist");
 	};
+
+	const iImageHanlder = () => {
+		const storageRef = ref(storage, `property/${iImage.name}`);
+		const uploadTask = uploadBytesResumable(storageRef, iImage);
+
+		uploadTask.on(
+			"state_changed",
+			(snapshot) => {
+				const prog = Math.round(
+					(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+				);
+				setIProgress(prog);
+			},
+			(error) => console.log(error),
+			() => {
+				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+					// setUserImage(downloadURL)
+					setImage(downloadURL);
+				});
+			}
+		);
+	};
+
 	const uploadFileHandler = async (e) => {
 		const file = e.target.files[0];
 		console.log(file);
@@ -68,7 +92,7 @@ const ProductCreateScreen = () => {
 	return (
 		<div className="form-container">
 			<Link to="/admin/productlist">Go Back</Link>
-			<h1>Edit Product</h1>
+			<h1>Create Product</h1>
 
 			{loading && <Loader />}
 			{loading ? (
@@ -104,7 +128,7 @@ const ProductCreateScreen = () => {
 					</Form.Group>
 					<Form.Group className="mb-3" controlId="image">
 						<Form.Label>Image</Form.Label>
-						<Form.Control
+						{/* <Form.Control
 							required
 							type="text"
 							placeholder="Enter image url"
@@ -112,16 +136,46 @@ const ProductCreateScreen = () => {
 								setImage(e.target.value);
 							}}
 							value={image}
-						/>
-						<Form.File
+						/> */}
+						<input
 							// id="image-file"
+
 							required
 							label="Choose File"
-							custom
+							// custom
+							accept=".jpg,.jpeg,.png"
 							type="file"
-							onChange={uploadFileHandler}
-						></Form.File>
-						{uploading && <Loader />}
+							onChange={(e) => {
+								setiImage(e.target.files[0]);
+							}}
+						></input>
+						{iprogress > 0 && iprogress < 100 && (
+							<ProgressBar
+								striped
+								variant="success"
+								style={{ marginTop: "10px" }}
+								now={iprogress}
+							/>
+						)}
+						<Button
+							onClick={iImageHanlder}
+							variant="btn btn-secondary btn-outline w-100"
+							style={{
+								backgroundColor: "#00c194",
+								textAlign: "center",
+								border: 0,
+								height: "30px",
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								fontSize: "16px",
+								padding: "20px ",
+								marginTop: "10px",
+							}}
+						>
+							{iprogress === 100 ? "Uploaded" : "Upload"}
+						</Button>
+						{/* {uploading && <Loader />} */}
 					</Form.Group>
 					<Form.Group className="mb-3" controlId="countInStock">
 						<Form.Label>Stock</Form.Label>
